@@ -26,8 +26,14 @@
 
 The first match wins, so an inner binding shadows an outer one that shares its
 name. Signal an error when NAME is not bound at all."
-  (declare (ignore name env))
-  (error "lookup is not implemented"))
+  (let ((pair (assoc name env)))      ; assoc takes a key and an alist and returns the
+                                      ; first cons cell whose car matches the key, or nil 
+  (if pair                            ; if a pair is found,
+    (cdr pair)                        ; return the second hald of the pair, which is the value
+    (error "not bound: ~a" name))))    ; if not found, signal an error with this message
+
+; (declare (ignore name env))
+; (error "lookup is not implemented"))
 
 ;;; E2 -- prefix arithmetic.
 
