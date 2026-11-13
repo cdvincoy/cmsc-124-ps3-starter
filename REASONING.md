@@ -12,28 +12,28 @@ wrongly. Say what you predicted, what CLISP printed, and which rule you
 misread. Those entries belong in the correction commits.
 
 ## P01
-Replace this line with the rule behind this case's four fields.
+`(+ 1 (* 2 3))` heads with the function `+`, which evaluates all its arguments first. The inner `(* 2 3)` becomes `6`, then `+` gives `7`. That is an `integer`, and the length is `none` and the operator is `function`.
 
 ## P02
-Replace this line with the rule behind this case's four fields.
+`'(+ 1 2)` heads with `quote`, a special operator that returns its argument unevaluated, so `+` is never called and the result is the list `(+ 1 2)`. A non-empty list is a cons, so the kind is `cons` and its length is `3`, with operator `special-operator`.  
 
 ## P03
-Replace this line with the rule behind this case's four fields.
+The form `nil` evaluates to itself, so the value is `nil`. It is an empty list, so the kind is `null`, rather than cons or symbol. It has a length of `0` and the operator is `none`, since the form is an atom with no head. 
 
 ## P04
-Replace this line with the rule behind this case's four fields.
+The form `t` is a symbol whose binding is itself, so the value is `t`. It is an atom and not `nil`, so the kind is `symbol` rather than `null` or `cons`. It is not a list or a string, so the length is `none` and the operator is `none` since the form is an atom with no head. 
 
 ## P05
-Replace this line with the rule behind this case's four fields.
+The form `(symbolp nil)` checks if `nil` is a symbol, so the value is `t` because it answers true. The value `t` is a symbol, so the kind is `symbol` and the length is `none`. The operator is `function` because the head is `symbolp` which is an ordinary function that evaluates its argument first before it runs.
 
 ## P06
-Replace this line with the rule behind this case's four fields.
+`(car '())` heads with the function `car`. The quote hands `car` the empty list unevaluated, and it returns the value `nil`. Since the value is `nil`, the kind is `null`, and the length is 0, and the operator is `function` because `car` is a function.
 
 ## P07
-Replace this line with the rule behind this case's four fields.
+`(cons 1 '(2 3))` heads with the function `cons`, which evaluates both arguments and builds one new cell with `1` and `(2 3)`. The result is a chain of cells, so the kind is `cons` and the length is `3`. The operator is `function` because `cons` is a function, not a special operator or macro.
 
 ## P08
-Replace this line with the rule behind this case's four fields.
+`(if (null '()) 'empty 'full)` heads with `if`, a special operator that evaluates the test first and then only evaluates the chosen branch. The test `(null '())` answers `t`, so the first branch `'empty` is evaluated, and the quote makes the value the symbol `empty`. So the kind is `symbol` and the length is `none`, and the operator is `special-operator` because of `if`.
 
 ## P09
 Replace this line with the rule behind this case's four fields.
@@ -45,7 +45,7 @@ Replace this line with the rule behind this case's four fields.
 Replace this line with the rule behind this case's four fields.
 
 ## P12
-Replace this line with the rule behind this case's four fields.
+Replace this line with the rule behind this case's four fields.  
 
 ## P13
 Replace this line with the rule behind this case's four fields.
