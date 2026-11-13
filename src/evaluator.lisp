@@ -26,14 +26,14 @@
 
 The first match wins, so an inner binding shadows an outer one that shares its
 name. Signal an error when NAME is not bound at all."
-  (let ((pair (assoc name env)))      ; assoc takes a key and an alist and returns the
-                                      ; first cons cell whose car matches the key, or nil 
-  (if pair                            ; if a pair is found,
-    (cdr pair)                        ; return the second hald of the pair, which is the value
-    (error "not bound: ~a" name))))    ; if not found, signal an error with this message
+  (let ((pair (assoc name env)))        ; Assoc takes a key and an alist and returns the
+                                        ; first cons cell whose car matches the key, or nil.
+  (if pair                              ; If a pair is found,
+    (cdr pair)                          ; return the second half of the pair, which is the value.
+    (error "not bound: ~a" name))))     ; If not found, signal an error with this message.
 
 ; (declare (ignore name env))
-; (error "lookup is not implemented"))
+; (error "lookup is not implemented")
 
 ;;; E2 -- prefix arithmetic.
 
@@ -42,15 +42,25 @@ name. Signal an error when NAME is not bound at all."
 
 MAPCAR and a LAMBDA do this in one line. Watch the arity: EVAL-EXPR takes two
 arguments and MAPCAR hands its function one."
-  (declare (ignore exprs env))
-  (error "eval-operands is not implemented"))
+  (mapcar (lambda (e) (eval-expr e env)) exprs))   ; Evaluates each exprs in env, collecting values into a list.
+
+; (declare (ignore exprs env))
+; (error "eval-operands is not implemented")
 
 (defun apply-op (op values)
   "Apply the arithmetic operator OP to the two numbers in VALUES.
 
 OP is the symbol +, -, or *. Signal an error for anything else."
-  (declare (ignore op values))
-  (error "apply-op is not implemented"))
+  (let ((a (first values))                        ; the left operand
+        (b (second values)))                      ; the right operand
+    (case op                                      ; Pick the rule by the operation.
+    (+ (+ a b))                                   ; + is add
+    (- (- a b))                                   ; - is subtract
+    (* (* a b))                                   ; * is multiply  
+    (t (error "unknown operator: ~a" op)))))      ; Anything else is an error.
+
+;  (declare (ignore op values))
+;  (error "apply-op is not implemented")
 
 ;;; E3 -- let.
 
