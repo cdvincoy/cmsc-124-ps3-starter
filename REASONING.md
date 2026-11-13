@@ -36,25 +36,25 @@ The form `(symbolp nil)` checks if `nil` is a symbol, so the value is `t` becaus
 `(if (null '()) 'empty 'full)` heads with `if`, a special operator that evaluates the test first and then only evaluates the chosen branch. The test `(null '())` answers `t`, so the first branch `'empty` is evaluated, and the quote makes the value the symbol `empty`. So the kind is `symbol` and the length is `none`, and the operator is `special-operator` because of `if`.
 
 ## P09
-`(and 1 nil 3)` heads with `and`, which evaluates its arguments left to right and stops at the first `nil` and returns `nil`. The kind then becomes `null` and the length is `0`. The operator is `special-operator` because of `and` even though it is also a macro, because special operator is asked first.
+Replace this line with the rule behind this case's four fields.
 
 ## P10
-This case heads with `progn`, a special operator that evaluates in order and returns the last one, so the operator is `special-operator`. The `defvar` makes `*ps3-rate*` special, so the `let` rebinding it to `10` is seen by `ps3-scale` when it runs, giving `3*10`, which is `30`. That is an `integer`, so the kind is `integer` and the length is `none`. 
+Replace this line with the rule behind this case's four fields.
 
 ## P11
-This case heads with `defun`, which is a macro, so the operator is `macro`. A definition hands back the symbol it defines, so the value is `ps3-twice`. The kind is `symbol` and the length is `none`.
+Replace this line with the rule behind this case's four fields.
 
 ## P12
-This case heads with `labels`, which is a special operator that defines a local function and can call itself, so the operator is `special-operator`. `(down 3)` calls `down` with 3, 2, 1 and 0, building `(cons 3 (cons 2 (cons 1 '())))`, so the value is the list `(3 2 1)`. A non-empty list is a chain of cons cells, so the kind is `cons` and the length is `3`.  
+Replace this line with the rule behind this case's four fields.  
 
 ## P13
-`(mapcar #'length '((1 2) () (3)))` heads with `mapcar` which is a function, so the operator is `function`. `mapcar` applies a function to every element, which is `#'length` in this case, giving it a resulting value of 2, 0, and 1 `(2 0 1)`. A non-empty list is a cons, so the kind is `cons` and the length is `3`.
+Replace this line with the rule behind this case's four fields.
 
 ## P14
-This case heads with `mapcar`, which is a function, so the operator is `function`. `mapcar` calls the lambda with each element as `n`, squaring 1, 2, and 3 which results to `(1 4 9)`. A non-empty list is a cons, so the kind is `cons` and the length is `3`.
+Replace this line with the rule behind this case's four fields.
 
 ## P15
-`(lambda (n) (* n 2))` heads with `lambda`, which is a macro, so the operator is `macro`.  Since it is a lambda, it returns the function itself, so the value is `#<function>`. The kind is `function` and the length is `none`.
+Replace this line with the rule behind this case's four fields.
 
 ## P16
-This case heads with `let`, which is a special operator that runs the initializers first, binds the variable, and only evaluates the body. There is no defvar for factor, so it uses the `factor 2` and `f` does not see the `factor 10`, which gives `3*2`, and the value is `6`. The kind is `integer`, the length is `none`, and the operator is `special-operator`.
+Replace this line with the rule behind this case's four fields.
