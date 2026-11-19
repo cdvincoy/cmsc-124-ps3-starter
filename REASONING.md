@@ -44,6 +44,8 @@ The form `(symbolp nil)` checks if `nil` is a symbol, so the value is `t` becaus
 ## P11
 `defun` is the main operation, which is a macro that returns a defined function object. We define ps3-twice as having a parameter n and returning n times 2, but those aren't reflected in the actual output, since the output only prints the function name preceded by a #.
 
+Correction: I got the value and kind wrong. The correct value does not have a # and the correct kind is symbol. I assumed that defun would return the function object itself instead of just a symbol, when in actuality it only returns a symbol corresponding to the name in the definition.
+
 ## P12
 According to the docs, `labels` is a special operator that acts similarly to `flet`, in that it defines functions that are local to the block and executes the following form sequentially similar to `progn`. However, `labels` also allows the functions to call themselves, which is shown here. `down(n)` is defined as a recursive function that creates a cons out of the current n + `down(n-1)`, with a base case of `down(0)` returning an empty cons. The following form calls `down(3)` which expands into a cons with elements 3, 2 and 1, and thus a length of 3.
 
@@ -58,3 +60,5 @@ This time, the `mapcar` uses an anonymous lambda that accepts an argument n and 
 
 ## P16
 As per the docs, `let` executes a series of forms using specified bindings. In this case, the outermost let sets `factor` to 2 and then executes the middle let. The middle let sets `f` to a lambda that multiplies an argument n with the factor value, then executes the innermost let as its form. The innermost let changes the binding of factor to 10 (the more local bindings override less local bindings), and then calls the lambda with n=3. This results in integer 30, which obviously has no length.
+
+Correction: I got the value wrong, due to misunderstanding how locality works in CLISP. What is happening in actuality is that the middle let actually fills in factor as 2 upon its definition rather than when it is called. Therefore the last let doesn't actually do anything. Also, let is actually a special operator rather than a function due to it not following typical function-call syntax.
