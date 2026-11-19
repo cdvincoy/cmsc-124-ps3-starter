@@ -44,6 +44,8 @@ The form `(symbolp nil)` checks if `nil` is a symbol, so the value is `t` becaus
 ## P11
 `defun` is the main operation, which is a macro that returns a defined function object. We define ps3-twice as having a parameter n and returning n times 2, but those aren't reflected in the actual output, since the output only prints the function name preceded by a #.
 
+Correction: I got the value and kind wrong. The correct value does not have a # and the correct kind is symbol. I assumed that defun would return the function object itself instead of just a symbol, when in actuality it only returns a symbol corresponding to the name in the definition.
+
 ## P12
 According to the docs, `labels` is a special operator that acts similarly to `flet`, in that it defines functions that are local to the block and executes the following form sequentially similar to `progn`. However, `labels` also allows the functions to call themselves, which is shown here. `down(n)` is defined as a recursive function that creates a cons out of the current n + `down(n-1)`, with a base case of `down(0)` returning an empty cons. The following form calls `down(3)` which expands into a cons with elements 3, 2 and 1, and thus a length of 3.
 
