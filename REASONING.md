@@ -60,3 +60,5 @@ This time, the `mapcar` uses an anonymous lambda that accepts an argument n and 
 
 ## P16
 As per the docs, `let` executes a series of forms using specified bindings. In this case, the outermost let sets `factor` to 2 and then executes the middle let. The middle let sets `f` to a lambda that multiplies an argument n with the factor value, then executes the innermost let as its form. The innermost let changes the binding of factor to 10 (the more local bindings override less local bindings), and then calls the lambda with n=3. This results in integer 30, which obviously has no length.
+
+Correction: I got the value wrong, due to misunderstanding how locality works in CLISP. What is happening in actuality is that the middle let actually fills in factor as 2 upon its definition rather than when it is called. Therefore the last let doesn't actually do anything.
