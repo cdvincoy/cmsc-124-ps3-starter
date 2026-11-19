@@ -36,25 +36,25 @@ The form `(symbolp nil)` checks if `nil` is a symbol, so the value is `t` becaus
 `(if (null '()) 'empty 'full)` heads with `if`, a special operator that evaluates the test first and then only evaluates the chosen branch. The test `(null '())` answers `t`, so the first branch `'empty` is evaluated, and the quote makes the value the symbol `empty`. So the kind is `symbol` and the length is `none`, and the operator is `special-operator` because of `if`.
 
 ## P09
-Replace this line with the rule behind this case's four fields.
+`and` is the main operator, which is a special operator, evaluating three arguments: 1, nil and 3. According to the LISP documentation, `and` automatically returns nil upon reading any element that evaluates to nil. The second argument is nil, thus it evaluates to nil.
 
 ## P10
-Replace this line with the rule behind this case's four fields.
+`progn` is a special operator that evaluates the argument statements in sequence. The first line defines *ps3-rate\* as 2, the second line defines ps3-scale as a function that multiplies an argument n by the value of *ps3-rate\*. The final line sets *ps3-rate\* to 10, overriding the previous value of 2, and then runs ps3-scale with n=3, giving us 3 times 10: the integer 30. `progn` always returns the output of the final statement.
 
 ## P11
-Replace this line with the rule behind this case's four fields.
+`defun` is the main operation, which is a macro that returns a defined function object. We define ps3-twice as having a parameter n and returning n times 2, but those aren't reflected in the actual output, since the output only prints the function name preceded by a #.
 
 ## P12
-Replace this line with the rule behind this case's four fields.  
+According to the docs, `labels` is a special operator that acts similarly to `flet`, in that it defines functions that are local to the block and executes the following form sequentially similar to `progn`. However, `labels` also allows the functions to call themselves, which is shown here. `down(n)` is defined as a recursive function that creates a cons out of the current n + `down(n-1)`, with a base case of `down(0)` returning an empty cons. The following form calls `down(3)` which expands into a cons with elements 3, 2 and 1, and thus a length of 3.
 
 ## P13
-Replace this line with the rule behind this case's four fields.
+`mapcar` applies a function to each element of a cons, and returns the resulting outputs as another cons. the syntax `#'` indicates to use the existing length function to evaluate the second argument. (1 2) is length 2, () is length 0, and (3) is length 1; therefore, the result is a cons of all the lengths: (2,0,3) which is obviously of length 3.
 
 ## P14
-Replace this line with the rule behind this case's four fields.
+This time, the `mapcar` uses an anonymous lambda that accepts an argument n and returns its square. Applying this to (1 2 3), we call the lambda for each element and set n to the current element. The resulting output is (1 4 9), which is a cons of length 3.
 
 ## P15
-Replace this line with the rule behind this case's four fields.
+`lambda` is a macro that defines an anonymous function. But since we never call this lambda, the output of this when printed simply returns an anonymous function object, which has no length.
 
 ## P16
-Replace this line with the rule behind this case's four fields.
+As per the docs, `let` executes a series of forms using specified bindings. In this case, the outermost let sets `factor` to 2 and then executes the middle let. The middle let sets `f` to a lambda that multiplies an argument n with the factor value, then executes the innermost let as its form. The innermost let changes the binding of factor to 10 (the more local bindings override less local bindings), and then calls the lambda with n=3. This results in integer 30, which obviously has no length.
