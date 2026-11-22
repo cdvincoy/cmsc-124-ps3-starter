@@ -33,63 +33,129 @@ name. Signal an error when NAME is not bound at all."
 
 (defun eval-operands (exprs env)
   "Every expression in EXPRS, evaluated in the same ENV, as a list.
+  MAPCAR and a LAMBDA do this in one line. Watch the arity: EVAL-EXPR takes two
+  arguments and MAPCAR hands its function one."
+  (mapcar (lambda (e) (eval-expr e env)) exprs))   ; Evaluates each exprs in env, collecting values into a list.
 
-MAPCAR and a LAMBDA do this in one line. Watch the arity: EVAL-EXPR takes two
-arguments and MAPCAR hands its function one."
-  (declare (ignore exprs env))
-  (error "eval-operands is not implemented"))
+; (declare (ignore exprs env))
+; (error "eval-operands is not implemented")
 
 (defun apply-op (op values)
-  "Apply the arithmetic operator OP to the two numbers in VALUES.
+  "
+  Apply the arithmetic operator OP to the two numbers in VALUES.
 
-OP is the symbol +, -, or *. Signal an error for anything else."
-  (declare (ignore op values))
-  (error "apply-op is not implemented"))
+  OP is the symbol +, -, or *. Signal an error for anything else.
+  "
+  
+  (let ((a (first values))                        ; the left operand
+        (b (second values)))                      ; the right operand
+    (case op                                      ; Pick the rule by the operation.
+    (+ (+ a b))                                   ; + is add
+    (- (- a b))                                   ; - is subtract
+    (* (* a b))                                   ; * is multiply  
+    (t (error "unknown operator: ~a" op)))))      ; Anything else is an error.
 
+;  (declare (ignore op values))
+;  (error "apply-op is not implemented")
+
+; =====================================================================
 ;;; E3 -- let.
 
 (defun extend-env (params args env)
-  "ENV with PARAMS bound to ARGS in front of it.
+  "
+  ENV with PARAMS bound to ARGS in front of it.
 
-MAPCAR takes two lists and #'CONS pairs them. Build a new list. Do not modify
-ENV, because the caller keeps using it after the extension goes out of scope."
-  (declare (ignore params args env))
-  (error "extend-env is not implemented"))
+  MAPCAR takes two lists and #'CONS pairs them. Build a new list. Do not modify
+  ENV, because the caller keeps using it after the extension goes out of scope.
+  "
+
+  (append (mapcar #'cons params args) env)
+)
+;  (declare (ignore params args env))
+;  (error "extend-env is not implemented")
 
 (defun eval-let (expr env)
-  "Evaluate (let ((name init) ...) body).
+  "
+  Evaluate (let ((name init) ...) body).
 
-Every init is evaluated in ENV before any name is bound, so the bindings happen
-in parallel and an init cannot see a name the same LET introduces."
-  (declare (ignore expr env))
-  (error "eval-let is not implemented"))
+  Every init is evaluated in ENV before any name is bound, so the bindings happen
+  in parallel and an init cannot see a name the same LET introduces.
+  "
 
+  (eval 
+    (eval-operand expr)
+    (extend-env 
+      (mapcar #'car expr)  
+      (mapcar #'car (mapcar #'cdr expr))
+      env
+    )
+  )
+)
+;  (declare (ignore expr env))
+;  (error "eval-let is not implemented")
+
+; =====================================================================
 ;;; E4 -- lambda and application.
 
 (defun make-closure (params body env)
-  "A closure over ENV.
+  "
+  A closure over ENV.
 
-Return the list (:closure params body env). ENV is the environment the lambda
-was written in, not the one it will later be called from. Saving the wrong one
-is what makes the difference between 3 and 101 in the case the manual walks
-through."
-  (declare (ignore params body env))
-  (error "make-closure is not implemented"))
+  Return the list (:closure params body env). ENV is the environment the lambda
+  was written in, not the one it will later be called from. Saving the wrong one
+  is what makes the difference between 3 and 101 in the case the manual walks
+  through.
+  "
+
+  (list :closure params body env)
+)
+; (declare (ignore params body env))
+; (error "make-closure is not implemented")
+
 
 (defun apply-closure (closure args)
-  "Run CLOSURE on ARGS.
+  "
+  Run CLOSURE on ARGS.
 
-The parameters join the environment the closure captured. Signal an error when
-CLOSURE is not a closure, and when the argument count does not match."
-  (declare (ignore closure args))
-  (error "apply-closure is not implemented"))
+  The parameters join the environment the closure captured. Signal an error when
+  CLOSURE is not a closure, and when the argument count does not match.
+  "
+
+  (if 
+    ; condition
+    (and 
+      (eq :closure (first closure))
+      (= (length args) (length (second closure))) 
+    )
+    ; then-block
+    (let 
+      (
+        (c_params (second closure))
+        (c_body (third closure))
+        (c_env (fourth closure))
+      )
+      (
+        eval-expr c_body (extend-env c_params args c_env)
+      )
+    )
+    ; else-block
+    (
+      error "Invalid arguments for apply-closure."
+    )
+  )
+)
+;(declare (ignore closure args))
+;(error "apply-closure is not implemented")
 
 ;;; The dispatcher.
 
 (defun eval-expr (expr env)
-  "The value of EXPR in ENV.
+  "
+  The value of EXPR in ENV.
 
-Order the branches with care. NIL is a symbol as well as the empty list, and a
-number is not a cons, so the atom tests come before the list tests."
+  Order the branches with care. NIL is a symbol as well as the empty list, and a
+  number is not a cons, so the atom tests come before the list tests.
+  "
+
   (declare (ignore expr env))
   (error "eval-expr is not implemented"))
