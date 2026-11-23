@@ -87,7 +87,7 @@ OP is the symbol +, -, or *. Signal an error for anything else."
   "
 
   (eval 
-    (eval-operand expr)
+    (eval-operands expr)
     (extend-env 
       (mapcar #'car expr)  
       (mapcar #'car (mapcar #'cdr expr))
@@ -160,7 +160,19 @@ OP is the symbol +, -, or *. Signal an error for anything else."
   Order the branches with care. NIL is a symbol as well as the empty list, and a
   number is not a cons, so the atom tests come before the list tests.
   "
+  (cond ((numberp expr) expr)                                        ; if it is a number, return the number
+        ((symbolp expr) (lookup expr env))                           ; if it is a symbol, lookup it in the current environment
+        ((member (first expr) '(+ - *))                              ; if it starts with an operation,
+          (apply-op (first expr) (eval-operands (rest expr) env)))   ; call apply-op with the operator, together with the operands
+        
+        ((eq (first expr) 'let) (eval-let expr env))                 ; if it starts with let, hand the whole form to eval-let  
+        ((eq (first expr) 'lambda)                                   ; if it starts with lambda,
+          (make-closure (second expr) (third expr) env))             ; make a closure with the parameters, body, and the environment 
+        
+        (t                                                           ; anything else is a function call, so
+          (apply-closure (eval-expr (first expr) env)                ; evaluate the operator to get the closure and
+            (eval-operands (rest expr) env))))                       ; evaluate the arguments, then call the closure on them
 
-  (declare (ignore expr env))
-  (error "eval-expr is not implemented")
+  ; (declare (ignore expr env))
+  ; (error "eval-expr is not implemented")
 )
