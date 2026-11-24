@@ -86,13 +86,11 @@ OP is the symbol +, -, or *. Signal an error for anything else."
   in parallel and an init cannot see a name the same LET introduces.
   "
 
-  (eval 
-    (eval-operands expr)
-    (extend-env 
-      (mapcar #'car expr)  
-      (mapcar #'car (mapcar #'cdr expr))
-      env
-    )
+  (let* ((bindings (second expr))                                  ; the second part of the form is saved as bindings, the names and their values
+        (body (third expr))                                        ; the third part of the form is saved as body, the thing to compute
+        (names (mapcar #'first bindings))                          ; in each group of bindings, the first item is the variable/name
+        (vals (eval-operands (mapcar #'second bindings) env)))     ; the second item of each group is the values, and eval-operands evaluates each one
+      (eval-expr body (extend-env names vals env))                 ; build the new env with the names tied to the values, then evaluate the body in it
   )
 )
 ;  (declare (ignore expr env))
