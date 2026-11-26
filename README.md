@@ -7,7 +7,7 @@ Problem Set 3. The assignment manual defines the work and the submission rules.
 ## Pair
 
 - Claire Dane D. Vincoy (`@cdvincoy`)
-- 
+- Jared Ramyll D. Chua (`@ultramarine23`)
 
 ## Layout
 
